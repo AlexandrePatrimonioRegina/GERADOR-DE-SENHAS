@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Senha Segura</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cor-principal: #2c3e50;
+            --cor-secundaria: #34495e;
+            --cor-destaque: #3498db;
+            --cor-texto: #ecf0f1;
+            --cor-fundo-input: #1a252f;
+            --cor-borda-input: #4a637d;
+            --cor-sucesso: #2ecc71;
+            --cor-alerta: #f1c40f;
+            --cor-erro: #e74c3c;
+            --font-roboto: 'Roboto', sans-serif;
+            --font-roboto-mono: 'Roboto Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-weight: 400;
+        }
+
+        body {
+            background-color:black;
+            color: var(--cor-texto);
+            font-family: var(--font-roboto);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .conteudo {
+            background-color: var(--cor-secundaria);
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            max-width: 800px; 
+            width: 100%;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .conteudo-titulo {
+            text-align: center;
+            padding: 40px 20px 30px;
+            background-color: var(--cor-principal);
+            border-bottom: 3px solid var(--cor-destaque);
+        }
+
+        .conteudo-titulo img {
+            width: 60px;
+            margin-bottom: 15px;
+            color: #ff00cb;
+        }
+
+        .titulo-principal {
+            font-family: var(--font-roboto-mono);
+            font-size: 2.2em;
+            margin-bottom: 5px;
+            color: var(--cor-destaque);
+            text-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+        }
+
+        .titulo-secundario {
+            font-size: 1.1em;
+            opacity: 0.8;
+        }
+
+        .conteudo-senha {
+            padding: 30px 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .conteudo-senha label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            color: var(--cor-texto);
+        }
+
+        #campo-senha {
+            background-color: var(--cor-fundo-input);
+            border: 1px solid var(--cor-borda-input);
+            border-radius: 5px;
+            color: var(--cor-destaque);
+            font-family: var(--font-roboto-mono);
+            font-size: 1.8em;
+            padding: 15px;
+            width: 100%;
+            text-align: center;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: border-color 0.3s ease;
+        }
+
+        #campo-senha:focus {
+            outline: none;
+            border-color: var(--cor-destaque);
+        }
+
+        .parametro {
+            background-color: var(--cor-secundaria);
+            padding: 25px;
+        }
+
+        .parametro-titulo {
+            font-family: var(--font-roboto-mono);
+            font-size: 1.5em;
+            margin-bottom: 25px;
+            color: var(--cor-destaque);
+            text-align: center;
+        }
+
+        .parametro-coluna__senha {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+        }
+
+        .parametro-senha {
+            background-color: var(--cor-principal);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; 
+        }
+
+        .parametro-senha__titulo {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            color: var(--cor-texto);
+            text-align: center;
+        }
+
+        .parametro-senha-botoes {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .parametro-senha__botao {
+            background-color: var(--cor-fundo-input);
+            color: var(--cor-destaque);
+            border: 1px solid var(--cor-destaque);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .parametro-senha__botao:hover {
+            background-color: var(--cor-destaque);
+            color: var(--cor-principal);
+            transform: scale(1.1);
+        }
+
+        .parametro-senha__texto {
+            background-color: var(--cor-fundo-input);
+            border: 1px solid var(--cor-borda-input);
+            border-radius: 5px;
+            padding: 10px 15px;
+            font-size: 1.4em;
+            font-family: var(--font-roboto-mono);
+            min-width: 60px;
+            text-align: center;
+            color: var(--cor-destaque);
+            flex-grow: 1; 
+        }
+
+        .parametro-senha-checkbox {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .parametro-senha-checkbox:last-child {
+            margin-bottom: 0;
+        }
+
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+            accent-color: var(--cor-destaque);
+            cursor: pointer;
+        }
+
+        .checkbox + label {
+            font-size: 1em;
+            color: var(--cor-texto);
+        }
+
+        .barra {
+            background-color: var(--cor-fundo-input);
+            height: 10px;
+            width: 100%;
+            border-radius: 5px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .forca {
+            height: 100%;
+            width: 0%;
+            border-radius: 5px;
+            transition: width 0.5s ease-in-out, background-color 0.5s ease-in-out;
+        }
+
+        .fraca {
+            background-color: var(--cor-erro);
+            width: 33%;
+        }
+
+        .media {
+            background-color: var(--cor-alerta);
+            width: 66%;
+        }
+
+        .forte {
+            background-color: var(--cor-sucesso);
+            width: 100%;
+        }
+
+        .parametro-senha-textos {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 0.85em;
+            opacity: 0.7;
+        }
+
+        .entropia {
+            margin-top: 15px;
+            font-size: 0.9em;
+            text-align: center;
+            opacity: 0.9;
+            color: var(--cor-destaque);
+            font-family: var(--font-roboto-mono);
+        }
+        
+    </style>
+</head>
+
+<body>
+    <section class="conteudo">
+        <div class="conteudo-titulo">
+            <img src="unlock.svg" alt=">Palavras em diminutivo em homenagem a Ana Luiza<">
+            <h2 class="titulo-principal">Geradorzinho de senhinhas Anale</h2>
+            <h3 class="titulo-secundario">(Anale significa Ana + Alexandre)</h3>
+        </div>
+        <div class="conteudo-senha">
+            <label for="senha">Senhinha Geradinha</label>
+            <input name="senha" type="text" id="campo-senha" readonly>
+        </div>
+        <div class="parametro">
+            <h3 class="parametro-titulo">Personalize sua senhazinha</h3>
+            <div class="parametro-coluna__senha">
+                <div class="parametro-senha">
+                    <h4 class="parametro-senha__titulo">Númerozinhos de caracterezinhos</h4>
+                    <div class="parametro-senha-botoes">
+                        <button class="parametro-senha__botao">-</button>
+                        <p class="parametro-senha__texto">12</p>
+                        <button class="parametro-senha__botao">+</button>
+                    </div>
+                </div>
+                <div class="parametro-senha">
+                    <h4 class="parametro-senha__titulo">Caracteristicazinhas para sua senhinha</h4>
+                    <div class="parametro-senha-checkbox">
+                        <input name="maiusculo" type="checkbox" class="checkbox" checked>
+                        <label for="maiusculo">Letrinhas maiúsculinhas</label>
+                    </div>
+                    <div class="parametro-senha-checkbox">
+                        <input name="minusculo" type="checkbox" class="checkbox">
+                        <label for="minusculo">Letrinhas minúsculinhas</label>
+                    </div>
+                    <div class="parametro-senha-checkbox">
+                        <input name="numero" type="checkbox" class="checkbox">
+                        <label for="numero">Númerozinhos</label>
+                    </div>
+                    <div class="parametro-senha-checkbox">
+                        <input name="simbolo" type="checkbox" class="checkbox">
+                        <label for="simbolo">Símbolozinhos</label>
+                    </div>
+                </div>
+                <div class="parametro-senha">
+                    <h4 class="parametro-senha__titulo">Forcinha da sua nova senhinha</h4>
+                    <div class="barra">
+                        <div class="forca fraca"></div>
+                    </div>
+                    <div class="parametro-senha-textos">
+                        <p>Fraquinha</p>
+                        <p>Médiazinha</p>
+                        <p>Fortinha</p>
+                    </div>
+                    <p class="entropia"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const numeroSenha = document.querySelector('.parametro-senha__texto');
+        let tamanhoSenha = 12;
+        numeroSenha.textContent = tamanhoSenha;
+        const letrasMaiusculas = 'ABCDEFGHIJKLMNOPQRSTUVXYWZ';
+        const letrasMinusculas = 'abcdefghijklmnopqrstuvxywz';
+        const numeros = '0123456789';
+        const simbolos = '!@#$%^&*()_+{}[]|:;"<>,.?/~';
+        const botoes = document.querySelectorAll('.parametro-senha__botao');
+        const campoSenha = document.querySelector('#campo-senha');
+        const checkbox = document.querySelectorAll('.checkbox');
+        const forcaSenha = document.querySelector('.forca');
+        const valorEntropia = document.querySelector('.entropia');
+
+        botoes[0].onclick = diminuiTamanho;
+        botoes[1].onclick = aumentaTamanho;
+
+        function diminuiTamanho() {
+            if (tamanhoSenha > 1) {
+                tamanhoSenha--;
+            }
+            numeroSenha.textContent = tamanhoSenha;
+            geraSenha();
+        }
+
+        function aumentaTamanho() {
+            if (tamanhoSenha < 20) {
+                tamanhoSenha++;
+            }
+            numeroSenha.textContent = tamanhoSenha;
+            geraSenha();
+        }
+
+        for (let i = 0; i < checkbox.length; i++) {
+            checkbox[i].onclick = geraSenha;
+        }
+
+        geraSenha();
+
+        function geraSenha() {
+            let alfabeto = '';
+            if (checkbox[0].checked) {
+                alfabeto += letrasMaiusculas;
+            }
+            if (checkbox[1].checked) {
+                alfabeto += letrasMinusculas;
+            }
+            if (checkbox[2].checked) {
+                alfabeto += numeros;
+            }
+            if (checkbox[3].checked) {
+                alfabeto += simbolos;
+            }
+
+            if (alfabeto === '') {
+                alfabeto = letrasMinusculas + numeros;
+            }
+
+            let senha = '';
+            for (let i = 0; i < tamanhoSenha; i++) {
+                let numeroAleatorio = Math.floor(Math.random() * alfabeto.length);
+                senha += alfabeto[numeroAleatorio];
+            }
+            campoSenha.value = senha;
+            classificaSenha(alfabeto.length);
+        }
+
+        function classificaSenha(tamanhoAlfabeto) {
+            let entropia = tamanhoSenha * Math.log2(tamanhoAlfabeto);
+            
+            forcaSenha.classList.remove('fraca', 'media', 'forte');
+            
+            if (entropia > 57) {
+                forcaSenha.classList.add('forte');
+            } else if (entropia > 35) {
+                forcaSenha.classList.add('media');
+            } else {
+                forcaSenha.classList.add('fraca');
+            }
+
+            const diasParaDescobrir = Math.floor(2 ** entropia / (100e6 * 60 * 60 * 24));
+            
+            if (diasParaDescobrir === Infinity) {
+                valorEntropia.textContent = "Essa senha é extremamente difícil de descobrir!";
+            } else if (diasParaDescobrir === 0) {
+                valorEntropia.textContent = "Um computadorzinho levaria menos de um diazinho para descobrir essa senhinha.";
+            } else {
+                valorEntropia.textContent = "Um computadorzinho pode levar até " + diasParaDescobrir + " diazinhos para descobrir essa senhinha.";
+            }
+        }
+
+        campoSenha.addEventListener('click', () => {
+            campoSenha.select();
+            document.execCommand('copy');
+            alert('Senhinha copiadinha para a áreazinha de transferênciazinha!');
+        });
+    </script>
+</body>
+
+</html>
